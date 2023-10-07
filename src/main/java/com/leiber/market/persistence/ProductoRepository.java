@@ -43,6 +43,7 @@ public class ProductoRepository implements ProductRepository {
         return productos.map(prods -> productMapper.toProducts(prods));
     }
 
+
     @Override
     public Optional<Product> getProduct(int productId) {
         return productoCrudRepository.findById(productId).map(producto -> productMapper.toProduct(producto));
@@ -54,12 +55,15 @@ public class ProductoRepository implements ProductRepository {
         return productMapper.toProduct(productoCrudRepository.save(producto));
     }
 
-
-    public Optional<List<Producto>> getProductosCaros(BigDecimal precioVenta){
-        return productoCrudRepository.findByPrecioVentaGreaterThanOrderByNombreAsc(precioVenta);
+    @Override
+    public Optional<List<Product>> getProductExpensive(BigDecimal precioVenta){
+        return productoCrudRepository.findByPrecioVentaGreaterThanOrderByNombreAsc(precioVenta)
+                .map(products -> productMapper.toProducts(products));
     }
-    public Optional<List<Producto>> getProductosDispobles(int cantidadStock, boolean estado){
-        return productoCrudRepository.findByCantidadStockAndEstado(cantidadStock, estado);
+    @Override
+    public Optional<List<Product>> getProductUnavailable(){
+        Optional<List<Producto>> productos = productoCrudRepository.findByEstado(false);
+        return productos.map(prods -> productMapper.toProducts(prods));
     }
 
     @Override
@@ -67,14 +71,24 @@ public class ProductoRepository implements ProductRepository {
         productoCrudRepository.deleteById(productId);
     }
 
-    public Producto updateProducto(int id, Producto productoActualizado) {
-        return productoCrudRepository.findById(id)
-                .map(producto -> {
-                    producto.setNombre(productoActualizado.getNombre());
-                    producto.setPrecioVenta(productoActualizado.getPrecioVenta());
-                    return productoCrudRepository.save(producto);
-                })
-                .orElseThrow(() -> new ResourceNotFoundException("Producto", "id", id));
+    public Product updateProduct(int id, Product updateProduct) {
+        try {
+            Product product = getProduct(id).orElseThrow(() -> {
+                return new ResourceNotFoundException("Producto", "id", id);
+            });
+
+            product.setName(updateProduct.getName());
+            product.setCategory(updateProduct.getCategory());
+            product.setPrice(updateProduct.getPrice());
+            product.setStock(updateProduct.getStock());
+            product.setActive(updateProduct.isActive());
+
+            return save(product);
+        } catch (ResourceNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Error inesperado al actualizar el producto", e);
+        }
     }
 
 }
