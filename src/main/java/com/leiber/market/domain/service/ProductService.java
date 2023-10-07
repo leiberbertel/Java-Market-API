@@ -6,8 +6,10 @@ import com.leiber.market.errors.ResourceNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 public class ProductService {
@@ -33,34 +35,27 @@ public class ProductService {
         return productRepository.getScarseProducts(quantity);
     }
 
+    public Optional<List<Product>> getProductExpensive(BigDecimal price) {
+        return productRepository.getProductExpensive(price);
+    }
+
+    public Optional<List<Product>> getProductAvailable() {
+        return productRepository.getProductUnavailable();
+    }
+
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
     public boolean delete(int productId) {
-        try {
+        return getProduct(productId).map(product -> {
             productRepository.delete(productId);
             return true;
-        } catch (EmptyResultDataAccessException e) {
-            return false;
-        }
+        }).orElse(false);
     }
 
-    public Product updateProduct(int productId, Product productoActualizado) {
-        try {
-            Product product = productRepository.getProduct(productId).orElseThrow(() -> {
-                return new ResourceNotFoundException("Producto", "id", productId);
-            });
-
-            product.setName(productoActualizado.getName());
-            product.setPrice(productoActualizado.getPrice());
-
-            return productRepository.save(product);
-        } catch (ResourceNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("Error inesperado al actualizar el producto", e);
-        }
+    public Product updateProduct(int productId, Product updateProduct) {
+        return productRepository.updateProduct(productId, updateProduct);
     }
 
 }
