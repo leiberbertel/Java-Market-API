@@ -6,7 +6,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.io.Serializable;
 
-@Embeddable // Para que se pueda embeber
+@Embeddable
 public class ComprasProductoPK implements Serializable {
 
     @Column(name = "id_compra")
