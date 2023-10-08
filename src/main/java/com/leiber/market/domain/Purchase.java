@@ -1,16 +1,26 @@
 package com.leiber.market.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
+@ApiModel(description = "Details about the purchase")
 public class Purchase {
 
+    @ApiModelProperty(notes = "The unique ID of the purchase")
     private int purchaseId;
+    @ApiModelProperty(notes = "The unique ID of the client")
     private String clientId;
+    @ApiModelProperty(notes = "The date of the purchase")
     private LocalDateTime date;
+    @ApiModelProperty(notes = "The payment method of the purchase")
     private String paymentMethod;
+    @ApiModelProperty(notes = "The comment of purchase")
     private String comment;
+    @ApiModelProperty(notes = "The state of the purchase")
     private String state;
+    @ApiModelProperty(notes = "The list of purchased items")
     private List<PurchaseItem> items;
 
     public int getPurchaseId() {

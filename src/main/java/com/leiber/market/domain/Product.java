@@ -1,15 +1,25 @@
 package com.leiber.market.domain;
 
-import java.math.BigDecimal;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+import java.math.BigDecimal;
+@ApiModel(description = "Details about the product")
 public class Product {
 
+    @ApiModelProperty(notes = "The unique ID of the product")
     private int productId;
+    @ApiModelProperty(notes = "The name of the product")
     private String name;
+    @ApiModelProperty(notes = "The category id of the product")
     private int categoryId;
+    @ApiModelProperty(notes = "The price of the product")
     private BigDecimal price;
+    @ApiModelProperty(notes = "The quantity of products")
     private int stock;
+    @ApiModelProperty(notes = "The state of the product")
     private boolean active;
+    @ApiModelProperty(notes = "The type category of the product")
     private Category category;
 
     public int getProductId() {
