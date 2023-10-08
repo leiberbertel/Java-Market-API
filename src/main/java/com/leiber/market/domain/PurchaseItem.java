@@ -4,6 +4,7 @@ public class PurchaseItem {
     private int productId;
     private int quantity;
     private double total;
+    private boolean active;
 
     public int getProductId() {
         return productId;
@@ -36,6 +37,4 @@ public class PurchaseItem {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    private boolean active;
 }
