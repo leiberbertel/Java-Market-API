@@ -3,7 +3,6 @@ package com.leiber.market.persistence.crud;
 import com.leiber.market.persistence.entity.Compra;
 import org.springframework.data.repository.CrudRepository;
 
-import java.security.Security;
 import java.util.List;
 import java.util.Optional;
 
