@@ -1,6 +1,6 @@
 package com.leiber.market.persistence.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.math.BigDecimal;
 

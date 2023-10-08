@@ -1,8 +1,6 @@
 package com.leiber.market.persistence.entity;
 
-import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity

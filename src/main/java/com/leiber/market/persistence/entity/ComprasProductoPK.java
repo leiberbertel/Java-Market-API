@@ -1,8 +1,6 @@
 package com.leiber.market.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import javax.persistence.*;
 
 import java.io.Serializable;
 
