@@ -31,9 +31,10 @@ The Spring Boot application will launch and be running on port 8080
 All endpoints and schemas are documented using Swagger UI. You can view the documentation at http://localhost:8080/swagger-ui/index.html#/, which is the default endpoint for the Swagger UI.
 
 ## Built with 🛠
-* Java version 21 - Language used
+* Gradle - Dependency Handler
+* Java version 17 - Language used
 * Lombok - Tertiary dependency
-* Mysql - Database Engine
+* PostgreSQL - Database Engine
 * Spring Framework - Framework used
 * Spring Data JPA - Dependency on data manipulation
 * Springdoc - Dependency on API documentation
