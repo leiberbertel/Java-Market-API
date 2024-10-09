@@ -2,14 +2,13 @@ package com.leiber.market.domain.service;
 
 import com.leiber.market.domain.Product;
 import com.leiber.market.domain.repository.ProductRepository;
-import com.leiber.market.errors.ResourceNotFoundException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import com.leiber.market.util.Utils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @Service
 public class ProductService {
@@ -23,7 +22,10 @@ public class ProductService {
         return productRepository.getAll();
     }
 
-    public Optional<Product> getProduct(int productId) {
+    public Optional<Product> getProduct(Integer productId) {
+        if (Utils.isNull(productId)) {
+            throw new IllegalArgumentException("The product id cannot be null");
+        }
         return productRepository.getProduct(productId);
     }
 
@@ -40,10 +42,17 @@ public class ProductService {
     }
 
     public Optional<List<Product>> getProductAvailable() {
-        return productRepository.getProductUnavailable();
+        return productRepository.getProductAvailable();
     }
 
     public Product save(Product product) {
+        if (Objects.isNull(product)) {
+            throw new IllegalArgumentException("Product cannot be null and void");
+        }
+
+        if (product.getName() == null || product.getPrice() == null) {
+            throw new IllegalArgumentException("Product name and price cannot be null");
+        }
         return productRepository.save(product);
     }
 
@@ -55,6 +64,10 @@ public class ProductService {
     }
 
     public Product updateProduct(int productId, Product updateProduct) {
+        if (Objects.isNull(updateProduct)) {
+            throw new IllegalArgumentException("Update Product cannot be null and void");
+        }
+
         return productRepository.updateProduct(productId, updateProduct);
     }
 
