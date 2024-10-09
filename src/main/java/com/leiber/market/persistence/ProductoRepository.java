@@ -61,7 +61,7 @@ public class ProductoRepository implements ProductRepository {
                 .map(products -> productMapper.toProducts(products));
     }
     @Override
-    public Optional<List<Product>> getProductUnavailable(){
+    public Optional<List<Product>> getProductAvailable(){
         Optional<List<Producto>> productos = productoCrudRepository.findByEstado(false);
         return productos.map(prods -> productMapper.toProducts(prods));
     }
