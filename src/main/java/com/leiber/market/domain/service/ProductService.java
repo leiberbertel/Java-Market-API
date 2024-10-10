@@ -29,11 +29,17 @@ public class ProductService {
         return productRepository.getProduct(productId);
     }
 
-    public Optional<List<Product>> getByCategory(int categoryId) {
+    public Optional<List<Product>> getByCategory(Integer categoryId) {
+        if (Utils.isNull(categoryId)) {
+            throw new IllegalArgumentException("The category id cannot be null");
+        }
         return productRepository.getByCategory(categoryId);
     }
 
-    public Optional<List<Product>> getScarseProducts(int quantity) {
+    public Optional<List<Product>> getScarseProducts(Integer quantity) {
+        if (Utils.isNull(quantity)) {
+            throw new IllegalArgumentException("The quantity cannot be null");
+        }
         return productRepository.getScarseProducts(quantity);
     }
 
@@ -56,14 +62,17 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public boolean delete(int productId) {
+    public boolean delete(Integer productId) {
+        if (Utils.isNull(productId)) {
+            throw new IllegalArgumentException("The product id cannot be null");
+        }
         return getProduct(productId).map(product -> {
             productRepository.delete(productId);
             return true;
         }).orElse(false);
     }
 
-    public Product updateProduct(int productId, Product updateProduct) {
+    public Product updateProduct(Integer productId, Product updateProduct) {
         if (Objects.isNull(updateProduct)) {
             throw new IllegalArgumentException("Update Product cannot be null and void");
         }
