@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,10 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
     private Integer productId;
+    private Integer categoryId;
+    private Integer quantity;
+    private BigDecimal price;
+    private Product newProduct;
 
     @BeforeEach
     public void setup() {
@@ -43,6 +48,14 @@ class ProductServiceTest {
         products.add(product);
 
         productId = 1;
+        categoryId = 2;
+        quantity = 200;
+        price = new BigDecimal("200.000");
+
+        newProduct = new Product();
+        newProduct.setName("Bread");
+        newProduct.setProductId(3);
+        newProduct.setPrice(price);
     }
 
     @Test
@@ -73,12 +86,91 @@ class ProductServiceTest {
     }
 
     @Test()
-    void testGetProduct_NumberFormatException() {
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            productService.getProduct(null);
-        });
+    void testGetProduct_IllegalArgumentException() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> productService.getProduct(null));
 
         assertEquals("The product id cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void getByCategory_Success() {
+        when(productRepository.getByCategory(categoryId)).thenReturn(Optional.ofNullable(products));
+
+        Optional<List<Product>> result = productService.getByCategory(categoryId);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void getByCategory_IllegalArgumentException() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> productService.getByCategory(null));
+
+        assertEquals("The category id cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void getScarsProducts_Success() {
+        when(productRepository.getScarseProducts(quantity)).thenReturn(Optional.ofNullable(products));
+
+        Optional<List<Product>> result = productService.getScarseProducts(quantity);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void getScarseProducts_IllegalArgumentException() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> productService.getScarseProducts(null));
+
+        assertEquals("The quantity cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void getProductExpensive_NotNull() {
+        when(productRepository.getProductExpensive(price)).thenReturn(Optional.ofNullable(products));
+
+        Optional<List<Product>> result = productService.getProductExpensive(price);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void getProductAvailable_NotNull() {
+        when(productRepository.getProductAvailable()).thenReturn(Optional.ofNullable(products));
+
+        Optional<List<Product>> result = productService.getProductAvailable();
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void save_Success() {
+        when(productRepository.save(newProduct)).thenReturn(product);
+
+        Product result = productService.save(newProduct);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void delete_IllegalArgumentException_When_ProductId_isNull() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> productService.delete(null));
+
+        assertEquals("The product id cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void update_Success() {
+        when(productRepository.updateProduct(productId, newProduct)).thenReturn(product);
+
+        Product result = productService.updateProduct(productId, newProduct);
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void update_IllegalArgumentException_When_Product_Update_isNull() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> productService.updateProduct(productId, null));
+
+        assertEquals("Update Product cannot be null and void", exception.getMessage());
     }
 }
