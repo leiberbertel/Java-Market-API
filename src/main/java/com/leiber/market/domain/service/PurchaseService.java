@@ -5,6 +5,7 @@ import com.leiber.market.domain.repository.PurchaseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,10 +21,16 @@ public class PurchaseService {
     }
 
     public Optional<List<Purchase>> getClientById(String clientId) {
-        return purchaseRepository.getByClient(clientId);
+        if (clientId == null || clientId.isEmpty() || clientId.trim().isEmpty()) {
+            throw new IllegalArgumentException("The client id cannot be null");
+        }
+         return purchaseRepository.getByClient(clientId);
     }
 
     public Purchase save(Purchase purchase) {
+        if (Objects.isNull(purchase)) {
+            throw new IllegalArgumentException("The purchase cannot be null");
+        }
         return purchaseRepository.save(purchase);
     }
 }
