@@ -1,7 +1,7 @@
 # Restful API Market
 ### _This is an API for the basic operation of a Super Market_:
 ![Static Badge](https://img.shields.io/badge/version-1.0-brightgreen)
-![Static Badge](https://img.shields.io/badge/Java-21-brightgreen)
+![Static Badge](https://img.shields.io/badge/Java-17-brightgreen)
 ![Static Badge](https://img.shields.io/badge/Spring-3.2-brightgreen)
 
 ## Running the API with Docker 🚀
